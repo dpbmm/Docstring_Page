@@ -8,6 +8,7 @@ import ast
 import re
 import sys
 import datetime
+import time
 
 class Page():
     def __init__(self, directory, tests_only=True):
@@ -45,9 +46,12 @@ class Page():
         Sub-lists contain a node name (incorporating path) and docstring.
         """
         # Make page-header.
+        if sys.version_info[0] < 3:
+            tzone = str(time.timezone)
+        else:
+            tzone = str(datetime.timezone.utc)
         current_datetime = (datetime.datetime.now().
-                strftime('%Y-%m-%d %H:%M:%S_') +
-                str(datetime.timezone.utc))
+                strftime('%Y-%m-%d %H:%M:%S_') + tzone)
         page_header = (
                 '## Files, functions, and classes/methods in directory "{}"'
                 '\n\n**Date**: {}.'.
